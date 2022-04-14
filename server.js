@@ -18,6 +18,14 @@ const flash = require('express-flash-messages');
 app.use(flash());
 
 //--------------------------------------------------------------------
+//      Envoie de variable(s) à PUG
+//--------------------------------------------------------------------
+app.use((req,res,next) => {
+    res.locals.session = req.session;
+    next();
+});
+
+//--------------------------------------------------------------------
 //      Parse les données soumise en post
 //--------------------------------------------------------------------
 app.use(express.urlencoded({ extended: false }));

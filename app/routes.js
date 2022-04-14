@@ -25,4 +25,10 @@ module.exports = (app) => {
         let Authenticated = require('../src/controllers/Authenticated.js');
         (new Authenticated()).process(req, res);
     });
+
+    app.get('/deconnexion', (req, res) => {
+        let Authenticated = require('../src/controllers/Authenticated.js');
+        (new Authenticated()).disconnect(req, res);
+    });
+      
 };

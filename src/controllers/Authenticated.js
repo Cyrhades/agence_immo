@@ -26,4 +26,11 @@ module.exports = class Authenticated {
             }); 
         });
     }
+
+    disconnect(request, response) {
+        request.session.user = null;
+        request.flash('notify', 'Vous êtes maintenant déconnecté.');
+        response.redirect('/');
+    }
+
 }
