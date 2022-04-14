@@ -14,4 +14,15 @@ module.exports = (app) => {
         let Register = require('../src/controllers/Register.js');
         (new Register()).process(req, res);
     });
+
+
+    app.get('/connexion', (req, res) => {
+        let Authenticated = require('../src/controllers/Authenticated.js');
+        (new Authenticated()).print(req, res);
+    });
+
+    app.post('/connexion', (req, res) => {
+        let Authenticated = require('../src/controllers/Authenticated.js');
+        (new Authenticated()).process(req, res);
+    });
 };

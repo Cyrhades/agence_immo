@@ -36,4 +36,17 @@ module.exports = class User {
             })
         })
     }
+
+    getUserByEmail(email) {
+        return new Promise((resolve, reject) => {
+            this.db.findOne({ email }, (err, user) => {
+                // si pas d'erreur, email trouvé
+                if (!err && user !== null) {
+                   resolve(user);
+                }  
+                reject(false);
+            })
+        })
+    }
+
 } 
