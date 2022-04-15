@@ -30,5 +30,28 @@ module.exports = (app) => {
         let Authenticated = require('../src/controllers/Authenticated.js');
         (new Authenticated()).disconnect(req, res);
     });
-      
+  
+    
+    //-------------------------------------------------------------------
+    //          routes administration
+    //-------------------------------------------------------------------
+    app.get('/admin', (req, res) => {
+        let Dashboard = require('../src/controllers/Dashboard.js');
+        (new Dashboard()).print(req, res);
+    });
+
+    app.get('/admin/realty', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).print(req, res);
+    });
+ 
+    app.get('/admin/realty/add', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).printForm(req, res);
+    });
+
+    app.post('/admin/realty/add', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).processForm(req, res);
+    });
 };

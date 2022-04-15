@@ -22,13 +22,14 @@ app.use(flash());
 //--------------------------------------------------------------------
 app.use((req,res,next) => {
     res.locals.session = req.session;
+    res.locals.route = req._parsedUrl.pathname;
     next();
 });
 
 //--------------------------------------------------------------------
 //      Parse les données soumise en post
 //--------------------------------------------------------------------
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 //--------------------------------------------------------------------
 //      Mise en place du moteur de template
