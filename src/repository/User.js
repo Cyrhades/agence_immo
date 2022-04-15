@@ -1,14 +1,6 @@
 require('../../app/database.js');
 const mongoose = require('mongoose');
-const UserSchema = mongoose.Schema({
-    email : {  type: String },
-    password : { type: String },
-    civility : {type: String, match: /^[1-2]{1}$/},
-    firstname: { type: String },
-    lastname: { type: String },
-    phone: { type: String },
-    date: { type: Date, default: Date.now }
-}, { versionKey: false });
+const UserSchema = require('./UserSchema.js');
  
 module.exports = class User {
     constructor() {
