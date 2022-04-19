@@ -1,5 +1,8 @@
 const mongoose = require('mongoose');
 const UserSchema = require('./UserSchema.js');
+
+const slug = require('mongoose-slug-updater');
+mongoose.plugin(slug);
 module.exports =  mongoose.Schema({
     agent_immobilier : { type: UserSchema },
     type:  {type: String, match: /^[1-6]{1}$/},
@@ -26,5 +29,6 @@ module.exports =  mongoose.Schema({
       mobile: { type: String },
       phone: { type: String },
       info: { type: String },
-    }
+    },
+    slug: { type: String, slug: ['address.zipcode','address.city'], unique:true }
 }, { versionKey: false });
