@@ -1,3 +1,4 @@
 .env
+.env.*
 .browser-refresh-ignore
 node_modules/

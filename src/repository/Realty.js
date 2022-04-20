@@ -25,6 +25,24 @@ module.exports = class Realty {
         });
     }
 
+    findById(id) {
+        return new Promise((resolve, reject) => {
+            this.db.findById(id, function (err, realty) {
+                if (err || realty === null) reject(err);
+                resolve(realty);
+            });
+        });
+    }
+
+    update(id, entity) {
+        return new Promise((resolve, reject) => {
+            this.db.findByIdAndUpdate(id, entity, function (err, realty) {
+                if (err || realty === null) reject(err);
+                resolve(realty);
+            });
+        });
+    }
+
     delete(filter = {}) {
         return new Promise((resolve, reject) => {
             this.db.deleteOne(filter, function (err) {

@@ -60,4 +60,13 @@ module.exports = (app) => {
         (new Realty()).delete(req, res);
     });
 
+    app.get('/admin/realty/edit/:id', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).printForm(req, res);
+    });
+
+    app.post('/admin/realty/edit/:id', (req, res) => {
+        let Realty = require('../src/controllers/Realty.js');
+        (new Realty()).processForm(req, res);
+    });
 };

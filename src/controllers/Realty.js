@@ -16,7 +16,19 @@ module.exports = class Realty {
             request.flash('error', `Vous devez être connecté pour accéder à l'administration.`);
             response.redirect('/connexion');  
         }
-        response.render('admin/realty/form', { form : { address : {}, contact : {}}});
+
+        if(typeof request.params.id != 'undefined'  && request.params.id != '') {
+            let repo = new RepoRealty();
+            repo.findById(request.params.id).then((realty) => {
+                response.render('admin/realty/form', { form : realty });
+            },() => {
+                request.flash('error', 'Une erreur est survenue.');
+                response.redirect('/admin/realty');
+            });
+        }
+        else {
+            response.render('admin/realty/form', { form : { address : {}, contact : {}}});
+        }
     }
 
     processForm(request, response) {  
@@ -30,15 +42,26 @@ module.exports = class Realty {
         entity.contact = request.body.contact || {};
 
         const repo = new RepoRealty();
-        repo.add(entity).then((realty) => {
-            request.flash('notify', 'Le bien a été créé.');
-            response.redirect('/admin/realty');
-        }, (err) => {
-            response.render('admin/realty/form', { 
-                error : `L'enregistrement en base de données a échoué`, 
-                form : entity 
-            }); 
-        });
+        if(typeof request.params.id != 'undefined'  && request.params.id != '') {
+            repo.update(request.params.id, entity).then(() => {
+                request.flash('notify', 'Le bien a été modifié.');
+                response.redirect('/admin/realty');
+            }, () => {
+                request.flash('error', 'La modification du bien a échoué.');
+                response.redirect('/admin/realty');
+            });
+        }
+        else {
+            repo.add(entity).then((realty) => {
+                request.flash('notify', 'Le bien a été créé.');
+                response.redirect('/admin/realty');
+            }, (err) => {
+                response.render('admin/realty/form', { 
+                    error : `L'enregistrement en base de données a échoué`, 
+                    form : entity 
+                }); 
+            });
+        }
     }
 
     delete(request, response) {
