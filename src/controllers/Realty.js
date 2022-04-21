@@ -1,4 +1,5 @@
 const RepoRealty = require('../repository/Realty');
+const UploadImageProductService = require('../services/UploadImageProductService');
 module.exports = class Realty {
     print(request, response) {
         if(typeof request.session.user === 'undefined') {
@@ -58,8 +59,24 @@ module.exports = class Realty {
             }
 
             // Gestions d'upload des photos ici
-
-            response.redirect('/admin/realty');
+            let photos = [];
+            // Enregistrement des images
+            if(typeof request.files != 'undefined' && request.files != null) {
+                if(typeof request.files.photos[0] === 'undefined') {
+                    request.files.photos = [request.files.photos];
+                }
+                const UploadImageProduct = new UploadImageProductService();
+                if(typeof request.files.photos != 'undefined' && request.files.photos.length > 0) {
+                    
+                    Object.values(request.files.photos).forEach(file => {
+                        photos.push(UploadImageProduct.moveFile(file, realty._id));
+                    });
+                }                                
+            }
+            Promise.all(photos).then((values) => {
+                console.log(values);
+                response.redirect('/admin/realty');
+            });
         }, (err) => {
             response.render('admin/realty/form', { 
                 error : `L'enregistrement en base de données a échoué`, 

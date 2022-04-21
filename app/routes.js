@@ -55,10 +55,14 @@ module.exports = (app) => {
         (new Realty()).printForm(req, res);
     });
 
-    app.post('/admin/realty/add', (req, res) => {
-        let Realty = require('../src/controllers/Realty.js');
-        (new Realty()).processForm(req, res);
-    });
+    app.post('/admin/realty/add', 
+        require('express-fileupload')({createParentPath: true}),
+        require('../src/services/LcParserService.js'), 
+        (req, res) => {
+            let Realty = require('../src/controllers/Realty.js');
+            (new Realty()).processForm(req, res);
+        }
+    );
 
     app.get('/admin/realty/delete/:id', (req, res) => {
         let Realty = require('../src/controllers/Realty.js');
@@ -70,8 +74,12 @@ module.exports = (app) => {
         (new Realty()).printForm(req, res);
     });
 
-    app.post('/admin/realty/edit/:id', (req, res) => {
-        let Realty = require('../src/controllers/Realty.js');
-        (new Realty()).processForm(req, res);
-    });
+    app.post('/admin/realty/edit/:id', 
+        require('express-fileupload')({createParentPath: true}),
+        require('../src/services/LcParserService.js'), 
+        (req, res) => {
+            let Realty = require('../src/controllers/Realty.js');
+            (new Realty()).processForm(req, res);
+        }
+    );
 };
