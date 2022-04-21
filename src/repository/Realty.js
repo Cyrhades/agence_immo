@@ -18,9 +18,9 @@ module.exports = class Realty {
 
     find(search = {}) {
         return new Promise((resolve, reject) => {
-            this.db.find(search, function (err, realty) {
+            this.db.find(search, function (err, realties) {
                 if (err) reject(err);
-                resolve(realty);
+                resolve(realties);
             });
         });
     }
