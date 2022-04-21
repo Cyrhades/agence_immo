@@ -42,26 +42,31 @@ module.exports = class Realty {
         entity.contact = request.body.contact || {};
 
         const repo = new RepoRealty();
+        let save;
         if(typeof request.params.id != 'undefined'  && request.params.id != '') {
-            repo.update(request.params.id, entity).then(() => {
-                request.flash('notify', 'Le bien a été modifié.');
-                response.redirect('/admin/realty');
-            }, () => {
-                request.flash('error', 'La modification du bien a échoué.');
-                response.redirect('/admin/realty');
-            });
+            save = repo.update(request.params.id, entity);
         }
         else {
-            repo.add(entity).then((realty) => {
-                request.flash('notify', 'Le bien a été créé.');
-                response.redirect('/admin/realty');
-            }, (err) => {
-                response.render('admin/realty/form', { 
-                    error : `L'enregistrement en base de données a échoué`, 
-                    form : entity 
-                }); 
-            });
+            save = repo.add(entity);
         }
+        
+        save.then((realty) => {
+            if(typeof request.params.id != 'undefined'  && request.params.id != '') {
+                request.flash('notify', 'Le bien a été modifié.');
+            } else {
+                request.flash('notify', 'Le bien a été créé.');
+            }
+
+            // Gestions d'upload des photos ici
+
+            response.redirect('/admin/realty');
+        }, (err) => {
+            response.render('admin/realty/form', { 
+                error : `L'enregistrement en base de données a échoué`, 
+                form : entity 
+            }); 
+        });
+
     }
 
     delete(request, response) {
