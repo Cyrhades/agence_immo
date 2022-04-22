@@ -1,4 +1,7 @@
 const RepoUser = require('../repository/User.js');
+const jwt = require('jsonwebtoken');
+const Cookies = require( "cookies" );
+
 module.exports = class Authenticated {
     print(request, response) {
         response.render('authenticated/form', {form: {}});  
@@ -10,6 +13,8 @@ module.exports = class Authenticated {
             if(bcrypt.compareSync(request.body.password, user.password)) {
                 user.password = null;
                 request.session.user = user;
+                let accessToken = jwt.sign({ user : { firstname: user.firstname, lastname: user.lastname}, roles: user.roles}, process.env.APP_KEY, {expiresIn: 604800});       
+                new Cookies(request, response).set('access_token', accessToken, {httpOnly: true, secure: false });
                 request.flash('notify', 'Vous êtes maintenant connecté.');
                 response.redirect('/');
             } else {
