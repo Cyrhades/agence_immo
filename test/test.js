@@ -25,7 +25,8 @@ describe('Utilisateurs', () => {
  
     it(`Création d'un compte`, (done) => {
         repo.emailExists(entity.email).then((result) => {
-            if(true) {
+            // On crée l'utilisateur que si il n'est pas déjà présent
+            if(result == false) {
                 repo.add(entity).then((result) => {
                     assert.equal(result.email, entity.email);
                     assert.equal(result.civility, entity.civility);
