@@ -9,7 +9,6 @@ module.exports = class Authenticated {
             let bcrypt = require('bcryptjs');
             if(bcrypt.compareSync(request.body.password, user.password)) {
                 user.password = null;
-                console.log(user);
                 request.session.user = user;
                 request.flash('notify', 'Vous êtes maintenant connecté.');
                 response.redirect('/');
