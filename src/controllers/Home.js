@@ -17,6 +17,8 @@ module.exports = class Home {
         if(typeof req.params.slug != 'undefined'  && req.params.slug != '') {
             let repo = new RepoRealty();
             repo.find({slug : req.params.slug}).then((realty) => {
+                const UploadImageProduct = new UploadImageProductService();
+                realty[0].pictures = UploadImageProduct.getPictures(realty[0].id);
                 res.render('realty', { realty : realty[0] });
             },() => {
                 req.flash('error', 'Une erreur est survenue.');
