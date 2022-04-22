@@ -17,7 +17,7 @@ describe('Utilisateurs', () => {
     });
 
     it(`Vérification email, d'un non existant`, (done) => {
-        repo.emailExists(entity.email).then((result) => {
+        repo.emailExists('j2.doe@yopmail.com').then((result) => {
             assert.equal(result, false);
             done();
         });
