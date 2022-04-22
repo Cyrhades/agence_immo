@@ -1,4 +1,4 @@
-require('dotenv').config({ path: `.env.test` });
+require('dotenv').config({ path: `test.env` });
 const assert = require('assert');
 const RepoUser = require('../src/repository/User');
 
