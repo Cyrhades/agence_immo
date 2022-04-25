@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const JwtService = require('./src/services/jwtService.js')
 require('dotenv').config()
 
 //--------------------------------------------------------------------
@@ -22,6 +23,11 @@ app.use(session({
 //--------------------------------------------------------------------
 const flash = require('express-flash-messages');
 app.use(flash());
+
+// Récupérer la session grace au JWT
+app.use('/', (new JwtService).connectWithJwt);
+app.use('/admin', (new JwtService).connectAuthAdmin);
+
 
 //--------------------------------------------------------------------
 //      Envoie de variable(s) à PUG
